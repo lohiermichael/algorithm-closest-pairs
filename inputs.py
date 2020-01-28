@@ -57,13 +57,13 @@ class InputList(list):
                 self.append(random.randint(a=self.min_value, b=self.max_value))
 
 
-class InputListPairs(list):
+class InputListPointsXY(list):
     def __init__(self, l_length: int = 100, min_value: int = 0, max_value: int = 10000, distinct_elements: bool = True):
         """
-        Object of list of pairs of points of the graph
+        Object of list  of points of the graph having each x and y coordinates
         Parameters
         ----------
-        l_length (int): Number of pairs (points of the graph
+        l_length (int): Number of points
         min_value (int): Minimum value of the x and y axes
         max_value (int): Maximum value of the x and y axes
         distinct_elements (bool): whether the points have distinct values of both x and y
