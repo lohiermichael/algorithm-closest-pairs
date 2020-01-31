@@ -47,8 +47,8 @@ def closest_pair(Px, Py):
         return brute_force_points(Px)
     mid = len(Px) // 2
     Q, R = Px[:mid], Px[mid:]
-    Qx, Qy = [x for x in Q if Py and x[0] <= Px[-1][0]], [x for x in Q if x[1] <= Py[-1][1]]
-    Rx, Ry = [x for x in R if Py and x[0] <= Px[-1][0]], [x for x in R if x[1] <= Py[-1][1]]
+    Qx, Qy = pre_process(Q)
+    Rx, Ry = pre_process(R)
     (p1, q1) = closest_pair(Qx, Qy)
     (p2, q2) = closest_pair(Rx, Ry)
     min_d = min(d(p1, p2), d(p2, q2))
@@ -61,12 +61,11 @@ def closest_split_pair(Px, Py, delta, best_pair):
     xm = Px[len(Px) // 2][0]
     Sy = [x for x in Py if xm - delta <= x[0] <= xm + delta]
     best = delta
-    for i in range(len(Sy) - 1):
-        for j in range(1, min(i + 7, (len(Sy) - i))):
-            p, q = Sy[i], Sy[i + j]
-            dist = d(p, q)
+    for i, point1 in enumerate(Sy):
+        for point2 in Sy[i+1: i+8]:
+            dist = d(point1, point2)
             if dist < best:
-                best_pair = p, q
+                best_pair = point1, point2
                 best = dist
     return best_pair
 
