@@ -1,5 +1,6 @@
 import random
 import matplotlib.pyplot as plt
+from typing import Union
 
 
 class InputList(list):
@@ -93,35 +94,52 @@ class InputListPointsXY(list):
         for x, y in zip(x_values, y_values):
             self.append((x, y))
 
-    def plot(self) -> None:
+    def plot(self, annotate: Union[bool, str] = False):
         """
         Function to plot the points on a graph
-        Returns
-        -------
+        Args:
+            annotate (bool, str):
+                True: full annotation
+                False: No annotation
+                'coordinates': The coordinates of the points
+                'number': The number of the point
+                'all': similar to True
+        Returns:
         fig, ax
+
         """
         fig, ax = plt.subplots()
-        fig.set_size_inches(18.5, 10.5)
-
+        fig.set_size_inches(18.5, 18.5)
         ax.scatter(*zip(*self))
-        for i, pair  in enumerate(self):
-            ax.annotate(i, (pair[0], pair[1]),fontsize=15)
-        plt.show()
-        return fig, ax 
-        
-    def plot_line_between(self, i, j) -> None:
+        if annotate or annotate == 'all':
+            for i, (x, y) in enumerate(self):
+                ax.annotate(f' {i} ({x}, {y})', (x, y), fontsize=15)
+        elif annotate == 'coordinates':
+            for i, (x, y) in enumerate(self):
+                ax.annotate(f' ({x}, {y})', (x, y), fontsize=15)
+        elif annotate == 'number':
+            for i, (x, y) in enumerate(self):
+                ax.annotate(f' {i}', (x, y), fontsize=15)
+        return fig, ax
+
+    def plot_line_between(self, i, j, annotate: Union[bool, str] = False):
+
         """
         Function that plot a line between to pairs of points of interest
-        Parameters
-        ----------
-        i(int): pair numbered i of the list
-        j(int): pair numbered j of the list
-        
-        Returns
-        -------
-        
+        Args:
+            i(int): point numbered i of the list as a tuple of coordinates (x, y)
+            j(int): point numbered j of the list as a tuple of coordinates (x, y)
+            annotate (bool, str):
+                True: full annotation
+                False: No annotation
+                'coordinates': The coordinates of the points
+                'number': The number of the point
+                'all': similar to True
+
+        Returns:
 
         """
-        fig, ax = self.plot()
-        ax.plot(self[i], self[j])
+        fig, ax = self.plot(annotate=annotate)
+        ax.plot([self[i][0], self[j][0]], [self[i][1], self[j][1]], '-r')
         plt.show()
+        return fig, ax
