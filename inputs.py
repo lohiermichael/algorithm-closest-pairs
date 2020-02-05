@@ -1,6 +1,6 @@
 import random
 import matplotlib.pyplot as plt
-from typing import Union
+from typing import Union, Tuple
 
 
 class InputList(list):
@@ -122,13 +122,12 @@ class InputListPointsXY(list):
                 ax.annotate(f' {i}', (x, y), fontsize=15)
         return fig, ax
 
-    def plot_line_between(self, i, j, annotate: Union[bool, str] = False):
-
+    def plot_line_between(self, point1: Tuple, point2: Tuple, annotate: Union[bool, str] = False):
         """
         Function that plot a line between to pairs of points of interest
         Args:
-            i(int): point numbered i of the list as a tuple of coordinates (x, y)
-            j(int): point numbered j of the list as a tuple of coordinates (x, y)
+            point1(Tuple): First point with (x, y) coordinates
+            point2(Tuple): Second point with (x, y) coordinates
             annotate (bool, str):
                 True: full annotation
                 False: No annotation
@@ -140,6 +139,6 @@ class InputListPointsXY(list):
 
         """
         fig, ax = self.plot(annotate=annotate)
-        ax.plot([self[i][0], self[j][0]], [self[i][1], self[j][1]], '-r')
+        ax.plot([point1[0], point2[0]], [point1[1], point2[1]], '-r')
         plt.show()
         return fig, ax
